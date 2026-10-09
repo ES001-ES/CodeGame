@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeGame Academy Ultra</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="space-bg">
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+    <div class="grid-glow"></div>
+    <div class="stars"></div>
+  </div>
+
+  <header class="topbar">
+    <button class="brand" type="button" data-page="home" aria-label="Ana səhifə">
+      <span class="brand-icon">🎮</span>
+      <span>CodeGame <b>Academy</b></span>
+    </button>
+
+    <nav class="nav">
+      <button class="nav-btn active" type="button" data-page="home">Ana səhifə</button>
+      <button class="nav-btn" type="button" data-page="academy">Akademiya</button>
+      <button class="nav-btn" type="button" data-page="library">Dərslər</button>
+      <a href="ai-lab.html" style="color:#a8e9ff;font-weight:800;text-decoration:none;padding:10px">✨ AI müəllim</a>
+      <button class="nav-btn" type="button" data-page="mission">Missiya</button>
+      <button class="nav-btn" type="button" data-page="impact">Münsif baxışı</button>
+      <button class="auth-top-btn" type="button" id="authOpenBtn" style="display:none">Giriş / Qeydiyyat</button>
+    </nav>
+  </header>
+
+  <section class="account-widget" id="accountWidget" style="display:none">
+    <div>
+      <strong id="accountName">Qonaq rejimi</strong>
+      <span id="accountInfo">Progress brauzerdə saxlanır. Hesab açsan, database-də qorunacaq.</span>
+    </div>
+    <div class="account-actions">
+      <button class="mini-btn" type="button" id="syncBtn">Progressi sync et</button>
+      <button class="mini-btn logout-btn" type="button" id="logoutBtn">Çıxış</button>
+    </div>
+  </section>
+
+  <main>
+    <!-- HOME -->
+    <section id="home" class="page active-page hero-page">
+      <div class="hero-text">
+        <div class="badge">🚀 0-dan başlayanlar üçün oyun əsaslı kodlaşdırma</div>
+        <h1>Kod yazmağı <span>səviyyə-səviyyə</span> öyrən!</h1>
+        <p>
+          CodeGame Academy şagirdlər üçün Azərbaycan dilində hazırlanmış interaktiv öyrənmə platformasıdır.
+          Hər tapşırıqda kodun nə etdiyini anlayır, sonra yazır, yoxlayır və XP qazanırsan.
+        </p>
+
+        <div class="hero-actions">
+          <button class="primary-btn" type="button" data-page="academy">Öyrənməyə Başla</button>
+          <button class="ghost-btn" type="button" data-page="library">Dərs Kitabxanası</button>
+          <button class="mentor-btn" type="button" id="openGuideBtn">Mənə yol göstər</button>
+        </div>
+
+        <div class="hero-stats">
+          <div>
+            <strong>6</strong>
+            <span>Proqramlaşdırma dili</span>
+          </div>
+          <div>
+            <strong>30</strong>
+            <span>Səviyyəli tapşırıq</span>
+          </div>
+          <div>
+            <strong>0 → Pro</strong>
+            <span>Addım-addım izah</span>
+          </div>
+        </div>
+
+        <div class="student-cockpit">
+          <div>
+            <span>Bugünkü məqsəd</span>
+            <strong id="dailyGoalText">1 tapşırıq tamamla</strong>
+          </div>
+          <div>
+            <span>Öyrənmə rejimi</span>
+            <strong>İzah → Kod → Nəticə</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <div class="planet planet-a">HTML</div>
+        <div class="planet planet-b">CSS</div>
+        <div class="planet planet-c">JS</div>
+        <div class="planet planet-d">PY</div>
+
+        <div class="hero-console">
+          <div class="console-dots"><span></span><span></span><span></span></div>
+          <pre id="typingCode"></pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- ACADEMY -->
+    <section id="academy" class="page academy-page">
+      <div class="page-heading">
+        <p class="eyebrow">Öyrənmə xəritəsi</p>
+        <h2>Bir dil seç, missiyaya başla</h2>
+        <p>
+          Hər kurs 5 səviyyədən ibarətdir: Başlanğıc, Asan, Orta, Çətin və Pro.
+          Tapşırıqları etmək üçün əvvəlcə giriş və ya qeydiyyat lazımdır. Beləliklə progress database-də qorunur.
+        </p>
+      </div>
+
+      <div id="courseGrid" class="course-grid"></div>
+    </section>
+
+    <!-- LIBRARY -->
+    <section id="library" class="page library-page">
+      <div class="page-heading">
+        <p class="eyebrow">Kod dərsliyi</p>
+        <h2>Kodlar nə edir?</h2>
+        <p>
+          Bu bölmə 0-dan öyrənmək üçündür. Hər dil üçün əsas anlayışlar, sadə izah və nümunələr verilir.
+        </p>
+      </div>
+
+      <div class="library-tools">
+        <input id="lessonSearch" type="text" placeholder="Dərs axtar: məsələn, HTML, funksiya, if..." />
+        <select id="lessonFilter">
+          <option value="all">Bütün dillər</option>
+        </select>
+      </div>
+
+      <div id="lessonGrid" class="lesson-grid"></div>
+    </section>
+
+    <!-- MISSION -->
+    <section id="mission" class="page mission-page">
+      <div class="mission-header">
+        <div>
+          <p class="eyebrow" id="missionEyebrow">Missiya</p>
+          <h2 id="missionTitle">Veb Şəhər Qurucusu</h2>
+          <p id="missionSubtitle">Tapşırığı tamamla və növbəti səviyyəni aç.</p>
+        </div>
+
+        <div class="mission-actions">
+          <div class="pill">⭐ Ümumi XP: <span id="totalXp">0</span></div>
+          <div class="pill">🎯 Səviyyə: <span id="currentLevel">1</span>/<span id="maxLevel">5</span></div>
+          <button class="mini-btn" type="button" id="backToAcademyBtn">Kurslara qayıt</button>
+        </div>
+      </div>
+
+      <div class="progress-area">
+        <div class="progress-label">
+          <span id="courseProgressLabel">Kurs irəliləyişi</span>
+          <span id="courseProgressText">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="courseProgressFill" class="progress-fill"></div>
+        </div>
+      </div>
+
+      <div class="mission-layout">
+        <!-- TASK -->
+        <aside class="panel task-panel">
+          <div class="panel-title">📜 Tapşırıq kartı</div>
+
+          <div class="task-card">
+            <div class="task-head">
+              <div id="taskTag" class="task-tag">HTML</div>
+              <div id="difficultyTag" class="difficulty-tag">Başlanğıc</div>
+            </div>
+
+            <h3 id="taskName">Tapşırıq adı</h3>
+            <p id="taskInfo">Tapşırıq izahı burada görünəcək.</p>
+
+            <div class="example-box">
+              <span>Nümunə / Məqsəd:</span>
+              <code id="taskExample"></code>
+            </div>
+
+            <button class="hint-btn" type="button" id="hintBtn">💡 İpucu göstər</button>
+            <p id="hintText" class="hint-text"></p>
+          </div>
+
+          <div class="roadmap-card">
+            <h4>Missiya xəritəsi</h4>
+            <ul id="levelRoadmap"></ul>
+          </div>
+        </aside>
+
+        <!-- EDITOR -->
+        <section class="panel editor-panel">
+          <div class="panel-title">💻 Kod laboratoriyası</div>
+
+          <div class="editor">
+            <div class="editor-top">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+              <span id="editorFileName" class="file-name">index.html</span>
+            </div>
+
+            <div class="editor-main">
+              <pre id="lineNumbers">1</pre>
+              <textarea id="codeInput" spellcheck="false" placeholder="Kodunu buraya yaz..."></textarea>
+            </div>
+          </div>
+
+          <div class="editor-buttons">
+            <button class="primary-btn check-btn" type="button" id="checkBtn">Cavabı Yoxla</button>
+            <button class="next-btn" type="button" id="nextLevelBtn">Növbəti səviyyəyə keç ➜</button>
+            <button class="ghost-btn small" type="button" id="starterBtn">Başlanğıc kodu</button>
+            <button class="ghost-btn small" type="button" id="solutionBtn">Həll nümunəsi</button>
+          </div>
+
+          <div id="messageBox" class="message-box">Hazırsansa kod yazmağa başla ✨</div>
+        </section>
+
+        <!-- OUTPUT + LESSON -->
+        <aside class="panel output-panel">
+          <div class="panel-title">🧪 Nəticə və izah</div>
+
+          <div class="preview-tabs">
+            <button class="preview-tab active" type="button" data-preview="lesson">Kod nə edir?</button>
+            <button class="preview-tab" type="button" data-preview="live">Canlı nəticə</button>
+            <button class="preview-tab" type="button" data-preview="world">Oyun dünyası</button>
+          </div>
+
+          <div id="lessonPreviewWrap" class="lesson-preview active-preview">
+            <div class="learn-card">
+              <h3>🧠 0-dan izah</h3>
+              <p id="zeroExplain"></p>
+            </div>
+
+            <div class="learn-card">
+              <h3>🔍 Bu kod nə edir?</h3>
+              <p id="codeExplain"></p>
+            </div>
+
+            <div class="learn-card">
+              <h3>📌 Açar anlayışlar</h3>
+              <div id="conceptList" class="concept-list"></div>
+            </div>
+
+            <div class="learn-card mentor-card">
+              <h3>🤖 KodMentor</h3>
+              <p id="mentorAdvice">Əvvəl izahı oxu, sonra kodu özün yaz.</p>
+            </div>
+
+            <div class="learn-card checklist-card">
+              <h3>✅ Özünü yoxla</h3>
+              <ul id="selfChecklist"></ul>
+            </div>
+          </div>
+
+          <div id="livePreviewWrap" class="preview-wrap">
+            <iframe id="previewFrame" title="Canlı nəticə" sandbox=""></iframe>
+          </div>
+
+          <div id="worldPreviewWrap" class="world-wrap">
+            <div class="world-top">
+              <h3 id="worldTitle">Mənim dünyam</h3>
+              <span id="worldCount">0/5</span>
+            </div>
+            <div id="worldArea" class="world-area">
+              <div class="empty-world">Tapşırıq keçdikcə obyektlər burada görünəcək.</div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+
+    <!-- IMPACT / JURY -->
+    <section id="impact" class="page impact-page">
+      <div class="page-heading">
+        <p class="eyebrow">Münsif baxışı</p>
+        <h2>Layihənin dəyəri və təsiri</h2>
+        <p>
+          Bu bölmə layihəni qrant və təqdimat üçün gücləndirir: problem, həll, ölçülə bilən nəticələr və inkişaf planı.
+        </p>
+      </div>
+
+      <div class="impact-grid">
+        <article class="impact-card">
+          <div class="impact-icon">🎯</div>
+          <h3>Problem</h3>
+          <p>
+            Şagirdlər proqramlaşdırmanı çox vaxt quru nəzəriyyə kimi görürlər.
+            Praktika, oyun motivasiyası və addım-addım izah çatışmır.
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-icon">💡</div>
+          <h3>Həll</h3>
+          <p>
+            CodeGame Academy kodu oyunlaşdırır: izah, tapşırıq, canlı nəticə,
+            XP, badge, mükafat və database-də saxlanan progress.
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-icon">📊</div>
+          <h3>Ölçülə bilən nəticə</h3>
+          <p>
+            Tamamlanan səviyyələr, XP, kurs faizi, badge sayı və aktiv istifadəçi
+            progressi sistemdə izlənə bilir.
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-icon">🛡️</div>
+          <h3>Təhlükəsizlik</h3>
+          <p>
+            Qeydiyyat/giriş, hash olunmuş şifrələr, CSRF, rate limit, validation,
+            prepared SQL və OWASP əsaslı yanaşma tətbiq olunub.
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-icon">🌱</div>
+          <h3>Şagird dostu</h3>
+          <p>
+            0-dan izah, KodMentor məsləhətləri, vizual nəticə, alt mətn izahı,
+            fokus rejimi və oxunaqlı dizayn əlavə edilib.
+          </p>
+        </article>
+
+        <article class="impact-card">
+          <div class="impact-icon">🚀</div>
+          <h3>Növbəti inkişaf</h3>
+          <p>
+            Müəllim paneli, siniflər, real compiler, tapşırıq bazası, sertifikat
+            və məktəblər üzrə statistik hesabat əlavə edilə bilər.
+          </p>
+        </article>
+      </div>
+
+      <div class="pitch-panel">
+        <h3>30 saniyəlik təqdimat mətni</h3>
+        <p>
+          CodeGame Academy şagirdlərə proqramlaşdırmanı oyun oynayaraq öyrədən Azərbaycan dilində platformadır.
+          Layihə nəzəriyyəni praktika ilə birləşdirir: şagird əvvəl kodun nə etdiyini öyrənir, sonra özü yazır,
+          canlı nəticəni görür və XP qazanır. Bu yanaşma məntiqi düşünməni, problem həll etmə bacarığını və
+          rəqəmsal savadlılığı artırır.
+        </p>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="profile" class="page profile-page">
+      <div class="page-heading">
+        <p class="eyebrow">Şagird profili</p>
+        <h2>Mənim inkişafım</h2>
+        <p>XP, badge və kurs irəliləyişləri brauzerdə yadda saxlanır.</p>
+      </div>
+
+      <div class="profile-layout">
+        <div class="profile-card big">
+          <div class="avatar">🧑‍🚀</div>
+          <h3>Kod Macəraçısı</h3>
+          <p>Ümumi XP</p>
+          <strong id="profileXp">0</strong>
+          <div id="rankName" class="rank-name">Başlanğıc Kodçu</div>
+          <button class="danger-btn" type="button" id="resetAllBtn">Bütün irəliləyişi sıfırla</button>
+        </div>
+
+        <div class="profile-card">
+          <h3>🏅 Badge-lər</h3>
+          <div id="badgesArea" class="badges-area"></div>
+        </div>
+
+        <div class="profile-card">
+          <h3>📊 Kurs statistikası</h3>
+          <div id="profileStats" class="profile-stats"></div>
+        </div>
+
+        <div class="profile-card rewards-card">
+          <h3>🎁 XP mükafatları</h3>
+          <p class="reward-help">XP artdıqca yeni titullar və mükafatlar açılır.</p>
+          <div id="rewardsArea" class="rewards-area"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+
+
+  <div id="guideModal" class="guide-modal" aria-hidden="true">
+    <div class="guide-card">
+      <button class="auth-close" type="button" id="guideCloseBtn">×</button>
+      <div class="copy-icon">🧭</div>
+      <h3>Necə öyrənməliyəm?</h3>
+      <div class="guide-steps">
+        <div><b>1</b><span>Əvvəl “Kod nə edir?” hissəsini oxu.</span></div>
+        <div><b>2</b><span>Başlanğıc kodundan istifadə edib özün tamamla.</span></div>
+        <div><b>3</b><span>Cavabı yoxla və sağda nəticəni gör.</span></div>
+        <div><b>4</b><span>Nə etdiyini başa düşəndə növbəti səviyyəyə keç.</span></div>
+      </div>
+      <button class="primary-btn" type="button" id="guideStartBtn">Başa düşdüm, başlayaq</button>
+    </div>
+  </div>
+
+  <div id="authModal" class="auth-modal" aria-hidden="true">
+    <div class="auth-card">
+      <button class="auth-close" type="button" id="authCloseBtn">×</button>
+
+      <div class="auth-head">
+        <div class="copy-icon">🔐</div>
+        <h3>CodeGame hesabı</h3>
+        <p>Giriş et və ya qeydiyyatdan keç. XP, badge və progress database-də saxlanacaq.</p>
+      </div>
+
+      <div class="auth-tabs">
+        <button class="auth-tab active" type="button" data-auth-tab="login">Giriş</button>
+        <button class="auth-tab" type="button" data-auth-tab="register">Qeydiyyat</button>
+      </div>
+
+      <form id="loginForm" class="auth-form active-auth-form">
+        <label>
+          Email
+          <input type="email" id="loginEmail" autocomplete="email" maxlength="120" required>
+        </label>
+        <label>
+          Şifrə
+          <input type="password" id="loginPassword" autocomplete="current-password" minlength="8" maxlength="128" required>
+        </label>
+        <button class="primary-btn" type="submit">Giriş et</button>
+      </form>
+
+      <form id="registerForm" class="auth-form">
+        <label>
+          Ad
+          <input type="text" id="registerName" autocomplete="name" minlength="2" maxlength="40" required>
+        </label>
+        <label>
+          Email
+          <input type="email" id="registerEmail" autocomplete="email" maxlength="120" required>
+        </label>
+        <label>
+          Şifrə
+          <input type="password" id="registerPassword" autocomplete="new-password" minlength="8" maxlength="128" required>
+        </label>
+        <div class="password-rules">
+          Şifrə ən azı 8 simvol, böyük hərf, kiçik hərf və rəqəm ehtiva etməlidir.
+        </div>
+        <button class="primary-btn" type="submit">Qeydiyyatdan keç</button>
+      </form>
+
+      <div id="authMessage" class="auth-message"></div>
+    </div>
+  </div>
+
+  <div id="copyModal" class="copy-modal" aria-hidden="true">
+    <div class="copy-card">
+      <div class="copy-icon">🧠</div>
+      <h3>Kopyalama əvəzinə özün yazmağa çalış</h3>
+      <p>
+        Kodları öz əlinlə yazanda daha tez öyrənirsən. Lazım olsa “İpucu” və “0-dan izah” bölməsindən istifadə et.
+      </p>
+      <button id="copyModalBtn" type="button" class="primary-btn">Başa düşdüm</button>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="confettiLayer" class="confetti-layer"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
